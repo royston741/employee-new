@@ -4,6 +4,7 @@ import com.employee.constants.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -35,7 +36,7 @@ public class Employee {
     private String password;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
-    private List<Task> task;
+    private List<Task> task=new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "employee_role")
