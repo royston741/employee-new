@@ -11,9 +11,10 @@
 	<groupId>com.employee</groupId>
 	<artifactId>EmployeeManagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>EmployeeManagement</name>
+    <packaging>jar</packaging>
+    <name>EmployeeManagement</name>
 	<description>Demo project for Spring Boot</description>
-	<properties>
+    <properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -27,16 +28,16 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.postgresql</groupId>-->
-<!--			<artifactId>postgresql</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.mysql</groupId>-->
+<!--			<artifactId>mysql-connector-j</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

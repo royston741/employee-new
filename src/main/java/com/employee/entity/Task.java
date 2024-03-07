@@ -4,7 +4,7 @@ import com.employee.constants.Priority;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class Task {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "due_date")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @Column(name = "priority")
     private Priority priority;

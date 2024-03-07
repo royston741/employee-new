@@ -1,5 +1,6 @@
 package com.employee.serviceImpl;
 
+import com.employee.constants.Role;
 import com.employee.dto.Response;
 import com.employee.entity.Employee;
 import com.employee.repository.EmployeeRepository;
@@ -71,10 +72,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Response<List<Employee>> getAllEmployees() {
+    public Response<List<Employee>> getAllEmployees(String filterValue) {
         Response<List<Employee>> response = new Response<>();
         try {
-            List<Employee> employee = employeeRepository.findAll();
+            List<Employee> employee;
+            if (filterValue.equals("")) {
+                employee = employeeRepository.findAll();
+            } else {
+                employee = employeeRepository.searchEmployee(filterValue);
+            }
             if (employee.isEmpty()) {
                 response.getErrorMessages().add("Employees not found");
             } else {
@@ -84,6 +90,82 @@ public class EmployeeServiceImpl implements EmployeeService {
         } catch (Exception e) {
             response.getErrorMessages().add("Employees not found");
             log.error("Error in getAllEmployees {}", e);
+        }
+        return response;
+    }
+
+    @Override
+    public Response<List<Employee>> getAllEmployeesByManagerId(int id) {
+        Response<List<Employee>> response = new Response<>();
+        try {
+            List<Employee> employee = employeeRepository.getAllEmployeesByManagerId(id);
+            if (employee.isEmpty()) {
+                response.getErrorMessages().add("Employees not found");
+            } else {
+                response.setSuccess(true);
+                response.setData(employee);
+            }
+        } catch (Exception e) {
+            response.getErrorMessages().add("Employees not found");
+            log.error("Error in getAllEmployeesByManagerId {}", e);
+        }
+        return response;
+    }
+
+    @Override
+    public Response<String> deleteEmployeeById(int id) {
+        Response<String> response = new Response<>();
+        try {
+            Employee employee = getEmployeeById(id).getData();
+            if (employee != null) {
+                if (employee.getRole() != Role.MANAGER) {
+                    employeeRepository.deleteById(id);
+                    response.setSuccess(true);
+                } else {
+                    employeeRepository.deleteById(id);
+                }
+            } else {
+                response.getErrorMessages().add("Employees not deleted");
+            }
+        } catch (Exception e) {
+            response.getErrorMessages().add("Employees not deleted");
+            log.error("Error in deleteEmployeeById {}", e);
+        }
+        return response;
+    }
+
+    @Override
+    public Response<List<Employee>> getAllManagers() {
+        Response<List<Employee>> response = new Response<>();
+        try {
+            List<Employee> managers = employeeRepository.findAllMangers();
+            if (managers.isEmpty()) {
+                response.getErrorMessages().add("Managers not found");
+            } else {
+                response.setSuccess(true);
+                response.setData(managers);
+            }
+        } catch (Exception e) {
+            response.getErrorMessages().add("Managers not found");
+            log.error("Error in getAllManagers {}", e);
+        }
+        return response;
+    }
+
+    @Override
+    public Response<Employee> logIn(String email, String password) {
+        Response<Employee> response = new Response<>();
+        try {
+            Employee employee = employeeRepository.findByEmailAndPassword(email, password);
+            if (employee != null) {
+                response.setData(employee);
+                response.setSuccess(true);
+            } else {
+                response.getErrorMessages().add("invalid username or password");
+            }
+        } catch (Exception e) {
+            response.getErrorMessages().add("Employee not found");
+            log.error("Error in getEmployeeById {}", e);
         }
         return response;
     }

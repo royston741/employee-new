@@ -1,6 +1,7 @@
 package com.employee.entity;
 
 import com.employee.constants.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,6 +36,7 @@ public class Employee {
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "employee")
     private List<Task> task=new ArrayList<>();
 
